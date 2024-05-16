@@ -20,7 +20,7 @@
     - MA: truy xuất các toán hạng trong bộ nhớ.
     - WB: ghi kết quả cuối vào thanh ghi.
 - Mô hình thiết kế RISCV-32I pipeline:
-![github](https://github.com/PhuocTai03/RISCV-32I-Processor/blob/main/media/pipeline.html)
+![github](https://github.com/PhuocTai03/RISCV-32I-Processor/blob/main/media/pipeline.png)
 
 
 
