@@ -10,7 +10,7 @@
         - Các bộ chọn MUX21, MUX31 để chọn đường tín hiệu phù hợp.
     - CONTROLLER: bộ phân tích mã lệnh để đưa ra các tín hiệu điều khiển phù hợp cho từng loại lệnh như I-type, R-type, B-type, ...
 - Mô hình thiết kế RISCV-32I single-cycle:
-![github](https://github.com/PhuocTai03/Router-16x16/blob/main/media/state.png)
+![github](https://github.com/PhuocTai03/RISCV-32I-Processor/blob/main/media/singleCycle.png)
 # Thiết kế vi xử lý RISCV 32I pipeline (đang cập nhật ...)
 - Mỗi chu kì xung clock tích cực cạnh lên, vi xử lý sẽ thực thi từng công đoạn một. Do đó, trong một chu kì xung clock có thể có nhiều lệnh thực thi cùng một lúc ở những công đoạn khác nhau.
 - Các công đoạn cụ thể như sau:
@@ -20,7 +20,7 @@
     - MA: truy xuất các toán hạng trong bộ nhớ.
     - WB: ghi kết quả cuối vào thanh ghi.
 - Mô hình thiết kế RISCV-32I pipeline:
-![github](https://github.com/PhuocTai03/Router-16x16/blob/main/media/state.png)
+![github](https://github.com/PhuocTai03/RISCV-32I-Processor/blob/main/media/pipeline.html)
 
 
 
