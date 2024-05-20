@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
-module REG_FILE(clk, RegWEn, AddrD, DataD, AddrA, DataA, AddrB, DataB);
-	input          clk, RegWEn;
-	input [4:0]    AddrA;
-	input [4:0]    AddrB;
-	input [4:0]    AddrD;
-	input [31:0]   DataD;
+module REG_FILE(
+	input          clk, RegWEn,
+	input [4:0]    AddrA,
+	input [4:0]    AddrB,
+	input [4:0]    AddrD,
+	input [31:0]   DataD,
 
-	output [31:0]  DataA;
-	output [31:0]  DataB;
-
+	output [31:0]  DataA,
+	output [31:0]  DataB
+    );
 	reg [31:0]     RegisterFile32b [31:0];
 	integer i;
 	initial begin
