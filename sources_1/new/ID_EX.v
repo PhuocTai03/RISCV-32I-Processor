@@ -1,16 +1,16 @@
 `timescale 1ns / 1ps
 module ID_EX(
-    input           clk, reset_n,
-    input [31:0]    pc_in, pcPlus4_in,
-    input [31:0]    DataA_in, DataB_in, 
-    input [4:0]     AddrA_in, AddrB_in, AddrD_in,
-    input [31:0]    imm_in, 
-    input           PCSel_in, RegWEn_in,
-    input           ASel_in, BSel_in,
-    input [3:0]     ALUSel_in,
-    input           MemRW_in, 
-    input [1:0]     WBSel_in,
-    input [2:0]     funct3_in,
+    input               clk, reset_n,
+    input [31:0]        pc_in, pcPlus4_in,
+    input [31:0]        DataA_in, DataB_in, 
+    input [4:0]         AddrA_in, AddrB_in, AddrD_in,
+    input [31:0]        imm_in, 
+    input               PCSel_in, RegWEn_in,
+    input               ASel_in, BSel_in,
+    input [3:0]         ALUSel_in,
+    input               MemRW_in, 
+    input [1:0]         WBSel_in,
+    input [2:0]         funct3_in,
     output reg [31:0]   pc_out, pcPlus4_out,
     output reg [31:0]   DataA_out, DataB_out,
     output reg [4:0]    AddrA_out, AddrB_out, AddrD_out,
@@ -20,7 +20,8 @@ module ID_EX(
     output reg [3:0]    ALUSel_out,
     output reg          MemRW_out, 
     output reg [1:0]    WBSel_out,
-    output reg [2:0]    funct3_out);
+    output reg [2:0]    funct3_out
+);
     
     wire [2:0]  wire_ImmSel;
     wire        wire_BrUn;

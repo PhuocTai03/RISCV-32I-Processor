@@ -1,5 +1,12 @@
-module CONTROLLER(PCSel, inst, ImmSel, RegWEn, BrUn, BrEq, BrLT, BrGE, ASel, BSel, ALUSel, MemRW, WBSel);
-    parameter R_type        = 7'b0110011;
+module CONTROLLER(
+    input          BrEq, BrLT, BrGE,
+	input  [31:0]  inst,
+	output         PCSel, RegWEn, BrUn, ASel, BSel, MemRW,
+	output [1:0]   WBSel,
+	output [2:0]   ImmSel,
+	output [3:0]   ALUSel
+);
+	parameter R_type        = 7'b0110011;
     parameter I_type        = 7'b0010011;
     parameter I_type_load   = 7'b0000011;
     parameter I_type_jalr   = 7'b1100111;
@@ -8,14 +15,6 @@ module CONTROLLER(PCSel, inst, ImmSel, RegWEn, BrUn, BrEq, BrLT, BrGE, ASel, BSe
     parameter J_type        = 7'b1101111;
     parameter U_type_lui    = 7'b0110111;
     parameter U_type_auipc  = 7'b0010111;
-    
-    input          BrEq, BrLT, BrGE;
-	input  [31:0]  inst;
-	output         PCSel, RegWEn, BrUn, ASel, BSel, MemRW;
-	output [1:0]   WBSel;
-	output [2:0]   ImmSel;
-	output [3:0]   ALUSel;
-	
 	wire [6:0]     opcode;
 	wire [2:0]     funct3;
 	wire [6:0]     funct7;

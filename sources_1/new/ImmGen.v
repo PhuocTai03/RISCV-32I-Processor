@@ -1,10 +1,9 @@
-module ImmGen(dataIn, dataOut, ImmSel);
-	input [24:0] dataIn;
-	input [2:0] ImmSel;
-	output [31:0] dataOut;
-
-	reg [31:0] immGenOut;
-	
+module ImmGen(
+	input [24:0]   dataIn,
+	input [2:0]    ImmSel,
+	output [31:0]  dataOut
+);
+	reg [31:0]     immGenOut;
 	always @(dataIn or ImmSel) begin
         case (ImmSel)
             //I - type

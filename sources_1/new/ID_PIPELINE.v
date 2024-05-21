@@ -1,7 +1,10 @@
 `timescale 1ns / 1ps
 module ID_PIPELINE (
-    input           clk, reset_n,
-    input [31:0]    inst, pc_in, pcPlus4_in,
+    input           clk, 
+                    reset_n,
+    input [31:0]    inst, 
+                    pc_in, 
+                    pcPlus4_in,
     input           RegWEn_in,
     input [4:0]     AddrD_in,   //writeback address
     input [31:0]    DataD_in,   //writeback data
@@ -21,10 +24,28 @@ module ID_PIPELINE (
     output [3:0]    ALUSel_out,
     output [1:0]    WBSel_out,
     output [2:0]    funct3_out
-    );
+);
     //reg wire
-    wire   [4:0]    wire_AddrA, wire_AddrB, wire_AddrD;
-    wire   [31:0]   wire_DataA, wire_DataB;
+    wire   [4:0]    wire_AddrA, 
+                    wire_AddrB, 
+                    wire_AddrD;
+    wire   [31:0]   wire_DataA, 
+                    wire_DataB;
+    //controller wire
+    wire            wire_PCSel, 
+                    wire_RegWEn, 
+                    wire_BrUn, 
+                    wire_BrEq, 
+                    wire_BrLT,
+                    wire_BrGE, 
+                    wire_ASel, 
+                    wire_BSel, 
+                    wire_MemRW;
+    wire   [2:0]    wire_ImmSel;
+    wire   [1:0]    wire_WBSel;
+    wire   [3:0]    wire_ALUSel;
+    //ImmGen wire
+    wire   [31:0]   wire_immm;
     assign          wire_AddrA = inst[19:15];
     assign          wire_AddrB =   (inst[6:0] == 7'b0010011 ||
                                     inst[6:0] == 7'b0000011 || 
@@ -34,18 +55,11 @@ module ID_PIPELINE (
                                     inst[6:0] == 7'b0010111)?5'bx:inst[24:20];
     assign          wire_AddrD =   inst[11:7];
     
-    //controller wire
-    wire            wire_PCSel, wire_RegWEn, wire_BrUn, wire_BrEq, wire_BrLT,
-                    wire_BrGE, wire_ASel, wire_BSel, wire_MemRW;
-    wire   [2:0]    wire_ImmSel;
-    wire   [1:0]    wire_WBSel;
-    wire   [3:0]    wire_ALUSel;
     
-    //ImmGen wire
-    wire   [31:0]   wire_immm;
     
     REG_FILE    ID_REG(
                             .clk            (clk),
+                            .reset_n        (reset_n),
                             .RegWEn         (RegWEn_in), 
                             .AddrD          (AddrD_in), 
                             .DataD          (DataD_in), 
@@ -56,24 +70,35 @@ module ID_PIPELINE (
                         );
     
     CONTROLLER  ID_CTL(
-                            wire_PCSel, 
-                            inst, 
-                            wire_ImmSel, 
-                            wire_RegWEn,
-                            wire_BrUn, 
-                            wire_BrEq, 
-                            wire_BrLT, 
-                            wire_BrGE, 
-                            wire_ASel, 
-                            wire_BSel, 
-                            wire_ALUSel, 
-                            wire_MemRW, 
-                            wire_WBSel
+                            .PCSel          (wire_PCSel), 
+                            .inst           (inst), 
+                            .ImmSel         (wire_ImmSel), 
+                            .RegWEn         (wire_RegWEn),
+                            .BrUn           (wire_BrUn), 
+                            .BrEq           (wire_BrEq), 
+                            .BrLT           (wire_BrLT), 
+                            .BrGE           (wire_BrGE), 
+                            .ASel           (wire_ASel), 
+                            .BSel           (wire_BSel), 
+                            .ALUSel         (wire_ALUSel), 
+                            .MemRW          (wire_MemRW), 
+                            .WBSel          (wire_WBSel)
                     );
     
-    BranchComp  ID_BrComp(wire_DataA, wire_DataB, wire_BrUn, wire_BrEq, wire_BrLT, wire_BrGE);
+    BranchComp  ID_BrComp(
+                            .A              (wire_DataA), 
+                            .B              (wire_DataB), 
+                            .BrUn           (wire_BrUn), 
+                            .BrEq           (wire_BrEq), 
+                            .BrLT           (wire_BrLT),
+                            .BrGE           (wire_BrGE)
+                        );
     
-    ImmGen      ID_ImmGen(inst[31:7], wire_immm, wire_ImmSel);
+    ImmGen      ID_ImmGen(
+                            .dataIn         (inst[31:7]),
+                            .ImmSel         (wire_ImmSel), 
+                            .dataOut        (wire_immm)
+                        );
     
     ID_EX       REG_IDEX(
                             .clk            (clk), 
