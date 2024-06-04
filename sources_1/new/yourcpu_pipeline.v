@@ -16,7 +16,7 @@ module yourcpu_pipeline(clk, reset_n, tb_addr, tb_inst);
     wire [1:0]      WBSel_MA;
     wire [2:0]      funct3_MA;
     wire [4:0]      AddrD_MA;
-    wire [31:0]     ALU_Result_MA, ALU_DataB_MA, pcPlus4_MA;
+    wire [31:0]     ALU_Result_EX, ALU_Result_MA, ALU_DataB_MA, pcPlus4_MA;
     //MA wire
     wire            RegWEn_WB;
     wire [1:0]      WBSel_WB;
@@ -33,7 +33,7 @@ module yourcpu_pipeline(clk, reset_n, tb_addr, tb_inst);
                             .tb_addr_in     (tb_addr), 
                             .tb_inst_in     (tb_inst),
                             .PCSel_in       (PCSel_IF), 
-                            .alu_in         (ALU_Result_MA),
+                            .alu_in         (ALU_Result_EX),
                              
                             .inst_out       (inst_ID), 
                             .pc_out         (pc_ID), 
@@ -88,6 +88,8 @@ module yourcpu_pipeline(clk, reset_n, tb_addr, tb_inst);
                             .funct3_in      (funct3_EX),
                             .fwdSelA        (fwdSelA), 
                             .fwdSelB        (fwdSelB),
+                            
+                            .ALU_Result_EX  (ALU_Result_EX),
                                 
                             .RegWEn_out     (RegWEn_MA), 
                             .MemRW_out      (MemRW_MA),

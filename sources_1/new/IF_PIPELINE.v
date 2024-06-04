@@ -25,6 +25,13 @@ module IF_PIPELINE(
     assign         inst_out = wire_inst_out;
     assign         addr = {2'b0, wire_pc_in[31:2]}; 
     
+    MUX21  IF_MUX21(
+                        .SEL        (wire_PCSel), 
+                        .A          (wire_pcPlus4_in), 
+                        .B          (alu_in), 
+                        .Y          (wire_pcNext)
+                    );
+                    
 	PC     IF_PC   (
                         .clk        (clk), 
                         .reset_n    (reset_n), 
@@ -32,25 +39,18 @@ module IF_PIPELINE(
                         .Q          (wire_pc_in)
 	               );
 	               
-	ADDER  IF_ADDER(
-                        .A          (wire_pc_in), 
-                        .B          (32'd4), 
-                        .Y          (wire_pcPlus4_in)
-                   );
-		
 	IMEM   IF_IMEM (
                         .tb_addr    (tb_addr_in), 
                         .tb_inst    (tb_inst_in), 
                         .addr       (addr), 
                         .inst       (wire_inst_in)
+                   ); 
+                                 
+	ADDER  IF_ADDER(
+                        .A          (wire_pc_in), 
+                        .B          (32'd4), 
+                        .Y          (wire_pcPlus4_in)
                    );
-	
-    MUX21  IF_MUX21(
-                        .SEL        (wire_PCSel), 
-                        .A          (wire_pcPlus4_in), 
-                        .B          (alu_in), 
-                        .Y          (wire_pcNext)
-                    );
     
     IF_ID  REG_IFID(
                         .clk        (clk), 

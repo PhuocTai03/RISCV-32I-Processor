@@ -16,7 +16,7 @@ program automatic test (yourcpu_io.tb yourcpu_io);
         #4000 $finish;
     end
     task load_inst();
-        pkts_generated  = 19;
+        pkts_generated  = 24;
         //reset
         inst_arr[0]     = 32'hxxxxxxxx;
         
@@ -60,7 +60,7 @@ program automatic test (yourcpu_io.tb yourcpu_io);
         inst_arr[13] = 32'h00138413;
                 
         //beq x3, x5, 16		jump
-        inst_arr[14] = 32'h00518463;
+        inst_arr[14] = 32'h00518863;
         
         //addi x0, x0, 0		nop
         inst_arr[15] = 32'h00000013;
@@ -74,6 +74,20 @@ program automatic test (yourcpu_io.tb yourcpu_io);
         //addi x10, x9, 1		x10 = 1 x9 = 0, x10 = 1 => ?úng
         inst_arr[18] = 32'h00148513;		
 
+        //addi x11, x10, 1
+        inst_arr[19] = 32'h00150593;
+        
+        //addi x12, x11, 1
+        inst_arr[20] = 32'h00158613;
+        
+        //addi x13, x12, 1
+        inst_arr[21] = 32'h00160693;
+        
+        //addi x14, x13, 1
+        inst_arr[22] = 32'h00168713;
+        
+        //addi x15, x14, 1
+        inst_arr[23] = 32'h00170793;
     endtask
     
     task reset();

@@ -16,6 +16,7 @@ module EX_PIPELINE(
     output [1:0]    WBSel_out,
     output [2:0]    funct3_out,
     output [31:0]   ALU_Result_out,
+    output [31:0]   ALU_Result_EX,
     output [31:0]   DataB_out,
     output [31:0]   pcPlus4_out,
     output [4:0]    AddrD_out
@@ -27,7 +28,7 @@ module EX_PIPELINE(
                     wire_forwardingA, 
                     wire_forwardingB;
     
-    
+    assign          ALU_Result_EX = wire_alu_result;
     MUX31   EX_AMUX31(
                         .SEL        (fwdSelA), 
                         .A          (DataA_in), 
