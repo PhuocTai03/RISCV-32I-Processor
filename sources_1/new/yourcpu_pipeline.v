@@ -26,7 +26,7 @@ module yourcpu_pipeline(clk, reset_n, tb_addr, tb_inst);
     wire [31:0]     pcPlus4_WB;
     wire [31:0]     DataWB_WB;
     //hazard wire
-    wire [1:0]      hazardSelA, hazardSelB;
+    wire [1:0]      fwdSelA, fwdSelB;
     IF_PIPELINE DUT_IF  (
                             .clk            (clk), 
                             .reset_n        (reset_n), 
@@ -86,8 +86,8 @@ module yourcpu_pipeline(clk, reset_n, tb_addr, tb_inst);
                             .MemRW_in       (MemRW_EX),   
                             .WBSel_in       (WBSel_EX),
                             .funct3_in      (funct3_EX),
-                            .hazardSelA     (hazardSelA), 
-                            .hazardSelB     (hazardSelB),
+                            .fwdSelA        (fwdSelA), 
+                            .fwdSelB        (fwdSelB),
                                 
                             .RegWEn_out     (RegWEn_MA), 
                             .MemRW_out      (MemRW_MA),
@@ -126,7 +126,7 @@ module yourcpu_pipeline(clk, reset_n, tb_addr, tb_inst);
  
                             .DataWB         (DataWB_WB)
                         );
-    HazardUnit DUT_HazardUnit(
+    FowardingUnit DUT_FowardingUnit(
                             .reset_n        (reset_n), 
                             .RS1_EX         (AddrA_EX), 
                             .RS2_EX         (AddrB_EX), 
@@ -135,8 +135,8 @@ module yourcpu_pipeline(clk, reset_n, tb_addr, tb_inst);
                             .RegWEn_MA      (RegWEn_MA), 
                             .RegWEn_WB      (RegWEn_WB),
                             
-                            .hazardSelA     (hazardSelA), 
-                            .hazardSelB     (hazardSelB)
+                            .fwdSelA        (fwdSelA), 
+                            .fwdSelB        (fwdSelB)
                         );  
 endmodule
 

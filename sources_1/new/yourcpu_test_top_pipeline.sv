@@ -4,8 +4,8 @@ module yourcpu_test_top_pipeline();
     parameter simulation_cycle = 100;
     bit SystemClock;
     
-    yourcpu_io  top_io(SystemClock);
-    test        t(top_io.tb);
+    yourcpu_io  top_io  (SystemClock);
+    test        t       (top_io.tb);
     
     yourcpu_pipeline dut    (   
                                 .reset_n(top_io.reset_n), 

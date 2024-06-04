@@ -16,36 +16,64 @@ program automatic test (yourcpu_io.tb yourcpu_io);
         #4000 $finish;
     end
     task load_inst();
-        pkts_generated  = 27;
+        pkts_generated  = 19;
+        //reset
         inst_arr[0]     = 32'hxxxxxxxx;
-        inst_arr[1]     = 32'h00300093; //addi x1, x0, 3
-        inst_arr[2]     = 32'h00108113; //addi x2, x1, 1
-        inst_arr[3]     = 32'h401101b3; //sub x3, x2, x1
-        inst_arr[4]     = 32'h0020c233;
-        inst_arr[5]     = 32'h0020e2b3;
-        inst_arr[6]     = 32'h0020f333;
-        inst_arr[7]     = 32'h003113b3;
-        inst_arr[8]     = 32'h00315433;
-        inst_arr[9]     = 32'hffa48493;
-        inst_arr[10]    = 32'h4034d533;
-        inst_arr[11]    = 32'h0084a5b3;
-        inst_arr[12]    = 32'h0084b5b3;
-        inst_arr[13]    = 32'h0055c613;
-        inst_arr[14]    = 32'h00766693;
-        inst_arr[15]    = 32'h0086f713;
-        inst_arr[16]    = 32'h00161793;
-        inst_arr[17]    = 32'h00c20463;
-        inst_arr[18]    = 32'h00d20463;
-        inst_arr[19]    = 32'h0017d813;
-        inst_arr[20]    = 32'h4014d893;
-        inst_arr[21]    = 32'h0028a913;
-        inst_arr[22]    = 32'h00f8b993; //sltiu x19, x17, 15
-        inst_arr[23]    = 32'h3e898b93; //addi x23, x19, 1000
-        inst_arr[24]    = 32'h3f798423; //sb x23, 1000(x19)
-        inst_arr[25]    = 32'hff28dae3; //bge x17, x18, -12
-        inst_arr[26]    = 32'hff27dae3; //bge x15, x18, -12 => loop
-        inst_arr[27]    = 32'h00010b17;
-        inst_arr[28]    = 32'h00438ae7;
+        
+        //addi x1, x0, 3		x1 = 3
+        inst_arr[1] = 32'h00300093;
+        
+        //addi x2, x1, 1		x2 = 4
+        inst_arr[2] = 32'h00108113;
+        
+        //sub x3, x2, x1		x3 = 1
+        inst_arr[3] = 32'h401101b3;
+        
+        //xor x4, x1, x2		x4 = 7	
+        inst_arr[4] = 32'h0020c233;
+        
+        //sw   x3, 20(x1)		M[23] = 1
+        inst_arr[5] = 32'h0030aa23;
+        
+        //lw   x5, 20(x1)		x5 = 1
+        inst_arr[6] = 32'h0140a283;
+        
+        //addi x0, x0, 0		nop
+        inst_arr[7] = 32'h00000013;
+        
+        //add  x6, x5, x1		x6 = 4 =>stall
+        inst_arr[8] = 32'h00128333;
+        
+        //beq x1, x2, 16		not jump
+        inst_arr[9] = 32'h01208463;
+        
+        //addi x0, x0, 0		nop
+        inst_arr[10] = 32'h00000013;
+        
+        //addi x0, x0, 0		nop
+        inst_arr[11] = 32'h00000013;
+        
+        //addi x7, x2,  1		x7 = 5
+        inst_arr[12] = 32'h00110393;
+        
+        //addi x8, x7, 1 		x8 = 6 x7 = 5, x8 = 6 => ?úng
+        inst_arr[13] = 32'h00138413;
+                
+        //beq x3, x5, 16		jump
+        inst_arr[14] = 32'h00518463;
+        
+        //addi x0, x0, 0		nop
+        inst_arr[15] = 32'h00000013;
+        
+        //addi x0, x0, 0		nop
+        inst_arr[16] = 32'h00000013;
+        
+        //addi x9, x8, 1		skip
+        inst_arr[17] = 32'h00140493;
+                
+        //addi x10, x9, 1		x10 = 1 x9 = 0, x10 = 1 => ?úng
+        inst_arr[18] = 32'h00148513;		
+
     endtask
     
     task reset();

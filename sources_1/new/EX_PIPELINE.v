@@ -10,7 +10,7 @@ module EX_PIPELINE(
     input [3:0]     ALUSel_in,
     input [1:0]     WBSel_in,
     input [2:0]     funct3_in,
-    input [1:0]     hazardSelA, hazardSelB,
+    input [1:0]     fwdSelA, fwdSelB,
     ///
     output          RegWEn_out, MemRW_out,
     output [1:0]    WBSel_out,
@@ -29,14 +29,14 @@ module EX_PIPELINE(
     
     
     MUX31   EX_AMUX31(
-                        .SEL        (hazardSelA), 
+                        .SEL        (fwdSelA), 
                         .A          (DataA_in), 
                         .B          (ALU_Result_in), 
                         .C          (WB_Result_in), 
                         .Y          (wire_forwardingA)
                     );
     MUX31   EX_BMUX31(
-                        .SEL        (hazardSelB), 
+                        .SEL        (fwdSelB), 
                         .A          (DataB_in), 
                         .B          (ALU_Result_in), 
                         .C          (WB_Result_in), 

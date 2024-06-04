@@ -46,16 +46,19 @@ module ID_PIPELINE (
     wire   [3:0]    wire_ALUSel;
     //ImmGen wire
     wire   [31:0]   wire_immm;
-    assign          wire_AddrA = inst[19:15];
-    assign          wire_AddrB =   (inst[6:0] == 7'b0010011 ||
-                                    inst[6:0] == 7'b0000011 || 
-                                    inst[6:0] == 7'b1101111 || 
-                                    inst[6:0] == 7'b1100111 ||
-                                    inst[6:0] == 7'b0110111 ||
-                                    inst[6:0] == 7'b0010111)?5'bx:inst[24:20];
+    assign          wire_AddrA =    (
+                                        inst[6:0] == 7'b0110111 ||  //U-type don't have rs1
+                                        inst[6:0] == 7'b1101111     //J-type don't have rs1
+                                    )?5'bx:inst[19:15];
+    assign          wire_AddrB =    (
+                                        inst[6:0] == 7'b0010011 ||  //I-type don't have rs2 (addi, ...)
+                                        inst[6:0] == 7'b0000011 ||  //I-tyle don't have rs2 (lw,lb, ...)
+                                        inst[6:0] == 7'b1101111 ||  //J-type don't have rs2 (jal)
+                                        inst[6:0] == 7'b1100111 ||  //jalr
+                                        inst[6:0] == 7'b0110111 ||  //lui
+                                        inst[6:0] == 7'b0010111     //auipc
+                                    )?5'bx:inst[24:20];
     assign          wire_AddrD =   inst[11:7];
-    
-    
     
     REG_FILE    ID_REG(
                             .clk            (clk),

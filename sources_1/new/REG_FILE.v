@@ -13,7 +13,7 @@ module REG_FILE(
     );
 	reg [31:0]     registers [31:0];
 	integer i;
- 	always @(*) begin
+ 	always @(negedge clk) begin
         if(!reset_n)
             for(i = 0; i < 32; i = i + 1)
                 registers[i] <= 0;
