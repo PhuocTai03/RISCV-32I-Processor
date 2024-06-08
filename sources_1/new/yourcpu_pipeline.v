@@ -25,7 +25,7 @@ module yourcpu_pipeline(clk, reset_n, tb_addr, tb_inst);
     wire [31:0]     ALU_Result_WB;
     wire [31:0]     pcPlus4_WB;
     wire [31:0]     DataWB_WB;
-    //hazard wire
+    //forwarding wire
     wire [1:0]      fwdSelA, fwdSelB;
     IF_PIPELINE DUT_IF  (
                             .clk            (clk), 

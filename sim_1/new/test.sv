@@ -10,8 +10,8 @@ program automatic test (yourcpu_io.tb yourcpu_io);
 
     initial begin
         reset();
-        //gen();
-        load_inst();
+        gen();
+        //load_inst();
         driver1();
         #4000 $finish;
     end
@@ -74,19 +74,19 @@ program automatic test (yourcpu_io.tb yourcpu_io);
         //addi x10, x9, 1		x10 = 1 x9 = 0, x10 = 1 => ?úng
         inst_arr[18] = 32'h00148513;		
 
-        //addi x11, x10, 1
+        //addi x11, x10, 1      x11 = 2
         inst_arr[19] = 32'h00150593;
         
-        //addi x12, x11, 1
+        //addi x12, x11, 1      x12 = 3
         inst_arr[20] = 32'h00158613;
         
-        //addi x13, x12, 1
+        //addi x13, x12, 1      x13 = 4
         inst_arr[21] = 32'h00160693;
         
-        //addi x14, x13, 1
+        //addi x14, x13, 1      x14 = 5
         inst_arr[22] = 32'h00168713;
         
-        //addi x15, x14, 1
+        //addi x15, x14, 1      x15 = 6
         inst_arr[23] = 32'h00170793;
     endtask
     
@@ -116,8 +116,8 @@ program automatic test (yourcpu_io.tb yourcpu_io);
         for (i = 0; i < pkts_generated; i = i + 1) begin
             $display("driver[%0d]", i);
             #1
-            yourcpu_io.addr <= i;
-            yourcpu_io.data <= inst_arr[i];
+            yourcpu_io.addr = i;
+            yourcpu_io.data = inst_arr[i];
         end
     endtask
     task driver2();
